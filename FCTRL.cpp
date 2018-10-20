@@ -5,45 +5,35 @@ using namespace std;
 
 
 
-int test(int M)
-
+int numOfZerosInFactorial (int n)
 {
-	int count = 0;
+	int a = 0;
+	int numOfZeros = 0;
 
-	while (M % 5 == 0)
+	while (n >= 5)
 	{
-		M = M/5;
-		count++;
+		n = n / 5;
+		numOfZeros += n;
 	}
 
-	return count;
-
-	// cout << count;
-}
-
-int numOfZeros (int n)
-{
-	int M = 0;
-
-	if (n == 1)
-		return 0;
-	else
-	{
-		return numOfZeros (n - 1) + test(n);
-	}
+	return numOfZeros;
 }
 
 
 int main() {
 	
 	// your code here
+	int numOfTest = 0;
 	int num = 0;
+	int a = 0;
 
-	cin >> num;
+	cin >> numOfTest;
 
-	// test(num);
-
-	cout << numOfZeros(num);
+	while(numOfTest--)
+	{
+		cin >> num;
+		cout << numOfZerosInFactorial(num) << endl;
+	}
 
 	return 0;
 }
