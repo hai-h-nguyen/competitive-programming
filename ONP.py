@@ -4,6 +4,14 @@ def convert2RPN(expression):
 	rightParen = ')'
 	leftParen = '('
 
+	operationList = {}
+	operationList["^"] = 4
+	operationList["*"] = 3
+	operationList["/"] = 3
+	operationList["+"] = 2
+	operationList["-"] = 2
+	operationList["("] = 1
+
 	outList = []
 
 	opStack = []
@@ -32,15 +40,19 @@ def convert2RPN(expression):
 		# Put the new operand in the list
 		# First remove any operators that have higher or equal
 		# precedence and append them to the output list
-		elif (i in operationList):
-			operation_rank = operationList.index(i)
+		elif (i in operationList.keys()):
+			new_rank = operationList[i]
 
-			for index in range(1, len(opStack)):
-				if (opStack[-index] in operationList):
-					if (operationList.index(opStack[-index]) >= operation_rank):
-						opStack.pop(-index)
-						# Add this operand to the output list
-						outList.append(opStack[-index])
+			index = 1
+
+			while(True):
+				key = opStack[-index]
+				if (operationList[key] >= new_rank):
+					outList.append(key)
+					opStack.pop(-index)
+					index = index + 1
+				else:
+					break
 			
 			# Then add the new operand to the stack
 			opStack.append(i)
@@ -48,9 +60,9 @@ def convert2RPN(expression):
 		# Operands -> Append it to the end of the output list
 		else:
 			outList.append(i)
-
-	outList.append(opStack[::-1])
-	return outList
+	if (len(opStack) > 0):
+		outList.append(opStack[::-1])
+	return ''.join(outList)
 
 def main():
 	numOfLines = input()
