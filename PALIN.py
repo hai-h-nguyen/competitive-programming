@@ -9,32 +9,52 @@ Output
 For each K, output the smallest palindrome larger than K.
 """
 
-def isPalindrome(numInt):
-    tempList = []
+def nextPalindrome(numStr):
 
-    while (numInt > 0):     
-        tempList.append(numInt % 10)
-        numInt //= 10
+    length = len(numStr)
+    nextPalin = ''
 
-    L = len(tempList)
-    for i in range(0, L//2):
-        if (tempList[i] != tempList[L - 1 - i]):
-            return False
+    if (length % 2 == 0):
 
-    return True
+        half_index = length // 2
+        half_str = numStr[:half_index]
+
+        nextPalin = half_str + half_str[::-1]
+
+        if (nextPalin <= numStr):
+            half_str = str(int(half_str) + 1)
+            nextPalin = half_str + half_str[::-1]
+
+    else:
+        half_index = length // 2
+        half_str = numStr[0 : half_index]
+
+        nextPalin = half_str + numStr[half_index] + half_str[::-1]
+
+        if (nextPalin <= numStr):
+            half_str = str(int(half_str + numStr[half_index]) + 1)
+            nextPalin = half_str + half_str[0:half_index][::-1]
+
+    return nextPalin
+
 
 def main():
-	numOfTests = input()
+    numOfTests = input()
 
-	for i in range(int(numOfTests)):
-		numInt = int(input())
+    for i in range(int(numOfTests)):
+        numStr = input()
 
-		while (True):
-			numInt += 1
-			if (isPalindrome(numInt) == True):
-				break
+        check = True
+        for i in numStr:
 
-		print(numInt)
+            # Special treat for "9...9" input
+            if (i != '9'):
+                check = False
+
+        if (check):
+            numStr = str(int(numStr) + 1)
+        
+        print(nextPalindrome(numStr))
 
 if __name__ == "__main__":
     main()
