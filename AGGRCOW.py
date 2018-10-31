@@ -1,22 +1,39 @@
 def bs(stallCoordinates, numOfCows):
-	stallCoordinates = sorted(stallCoordinates)
+	sortedStallCoordinates = sorted(stallCoordinates)
 
-	lo = stallCoordinates[0]
-	hi = stallCoordinates[-1]
+	lo = 0
+	hi = (int)(1e10)
 
-	while (low < hi - 1):
-		mid = (low + hi) // 2
+	while (lo < hi - 1):
+		mid = (lo + hi) // 2
+
+		# Min distance can be larger
+		if (tryPutCows(mid, sortedStallCoordinates, numOfCows)):
+			lo = mid
+
+		# Min distance needs to be smaller
+		else:
+			hi = mid
+
+
+	print(lo)
+
 
 
 def tryPutCows(minDistance, sortedStallCoordinates, numOfCows):
-	firstCow = sortedStallCoordinates[0]
+	lastestCow = sortedStallCoordinates[0]
+	cowCnt = 1
 
-	maxCows = (sortedStallCoordinates[-1] - firstCow) // minDistance
+	for coord in sortedStallCoordinates:
+		if (coord >= lastestCow + minDistance):
+			cowCnt += 1
+			lastestCow = coord
 
-	if (maxCows > numOfCows):
-		return false
+
+	if (cowCnt < numOfCows):
+		return False
 	else:
-		return true
+		return True
 
 
 def main():
@@ -28,7 +45,10 @@ def main():
 		stallCoordinates = []
 
 		for i in range(int(numOfStalls)):
-			stallCoordinates.append(int(intput()))
+			coord = int(input())
+			stallCoordinates.append(coord)
+
+		bs(stallCoordinates, int(numOfCows))
 
 
 
