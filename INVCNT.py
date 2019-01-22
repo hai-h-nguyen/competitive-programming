@@ -7,7 +7,7 @@ def countInversion(arrIn):
 		if (n == 1):
 			break
 
-		indexOfMax = arrIn.index(max(arrIn))
+		indexOfMax = n - arrIn.index(max(arrIn[::-1])) - 1
 		inversionCnt += len(arrIn) - indexOfMax - 1
 
 		del arrIn[indexOfMax]
